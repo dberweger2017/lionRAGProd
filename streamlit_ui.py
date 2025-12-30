@@ -4,10 +4,11 @@ import requests
 st.set_page_config(page_title="BG Gallus", page_icon="🏫")
 
 # Custom CSS to increase text size
+# Custom CSS to increase text size
 st.markdown("""
 <style>
     .stMarkdown p, .stMarkdown ul, .stMarkdown ol, .stMarkdown li {
-        font-size: 1.3rem !important;
+        font-size: 1.6rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
