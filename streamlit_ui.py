@@ -3,7 +3,7 @@ import requests
 
 st.set_page_config(page_title="BG Gallus", page_icon="🏫")
 
-def n8n_chat(prompt, url="https://lionlaal.app.n8n.cloud/webhook/9b4f118e-5de4-485c-9d9e-28003a171c08"):
+def n8n_chat(prompt, url="https://lionlaal.app.n8n.cloud/webhook/chat"):
     payload = {
         "chatInput": f"{prompt}",
     }
@@ -22,7 +22,7 @@ def n8n_chat(prompt, url="https://lionlaal.app.n8n.cloud/webhook/9b4f118e-5de4-4
         st.error(f"Unerwarteter Fehler: {e}")
         return f"Fehler: {e}"
 
-def n8n_files(file_obj, url="https://lionlaal.app.n8n.cloud/webhook-test/9b4f118e-5de4-485c-9d9e-28003a171c08"):
+def n8n_files(file_obj, url="https://lionlaal.app.n8n.cloud/webhook/files"):
     files = {"file": file_obj}
     try:
         response = requests.post(url, files=files)
@@ -38,7 +38,8 @@ def n8n_files(file_obj, url="https://lionlaal.app.n8n.cloud/webhook-test/9b4f118
         st.error(f"Unerwarteter Upload Fehler: {e}")
         return f"Fehler beim Hochladen: {e}"
 
-st.title("BG Gallus Assistent")
+#st.title("BG Gallus Assistent")
+st.image("assets/5855183e-2ee5-4e13-b999-f9cc67b4b153.JPG")
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -58,18 +59,22 @@ with st.sidebar:
 
 # Display chat messages from history
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if message["role"] == "user":
+        with st.chat_message("N"):
+            st.markdown(message["content"])
+    elif message["role"] == "assistant":
+        with st.chat_message("G"):
+            st.markdown(message["content"])
 
 # Accept user input
 if prompt := st.chat_input("Schreiben Sie etwas..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    with st.chat_message("N"):
+        st.markdown(f"{prompt}")
 
-    with st.chat_message("assistant"):
+    with st.chat_message("G"):
         with st.spinner("Denke nach..."):
             response = n8n_chat(prompt)
-            st.markdown(response)
+            st.markdown(f"{response}")
     
     st.session_state.messages.append({"role": "assistant", "content": response})
