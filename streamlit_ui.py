@@ -3,6 +3,15 @@ import requests
 
 st.set_page_config(page_title="BG Gallus", page_icon="🏫")
 
+# Custom CSS to increase text size
+st.markdown("""
+<style>
+    .stMarkdown p, .stMarkdown ul, .stMarkdown ol, .stMarkdown li {
+        font-size: 1.3rem !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 def n8n_chat(prompt, url="https://lionlaal.app.n8n.cloud/webhook/chat"):
     payload = {
         "chatInput": f"{prompt}",
