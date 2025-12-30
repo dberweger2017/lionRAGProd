@@ -12,7 +12,14 @@ def n8n_chat(prompt, url="https://lionlaal.app.n8n.cloud/webhook/9b4f118e-5de4-4
         response.raise_for_status()
         data = response.json()
         return data.get("output", str(data))
+    except requests.exceptions.RequestException as e:
+        error_text = ""
+        if hasattr(e, 'response') and e.response is not None:
+            error_text = e.response.text
+            st.error(f"Server Error Details: {error_text}")
+        return f"Fehler bei der Anfrage: {e} {error_text}"
     except Exception as e:
+        st.error(f"Unerwarteter Fehler: {e}")
         return f"Fehler: {e}"
 
 def n8n_files(file_obj, url="https://lionlaal.app.n8n.cloud/webhook-test/9b4f118e-5de4-485c-9d9e-28003a171c08"):
@@ -21,7 +28,14 @@ def n8n_files(file_obj, url="https://lionlaal.app.n8n.cloud/webhook-test/9b4f118
         response = requests.post(url, files=files)
         response.raise_for_status()
         return "Datei erfolgreich an n8n gesendet."
+    except requests.exceptions.RequestException as e:
+        error_text = ""
+        if hasattr(e, 'response') and e.response is not None:
+            error_text = e.response.text
+            st.error(f"Upload Fehler Details: {error_text}")
+        return f"Fehler beim Hochladen: {e} {error_text}"
     except Exception as e:
+        st.error(f"Unerwarteter Upload Fehler: {e}")
         return f"Fehler beim Hochladen: {e}"
 
 st.title("BG Gallus Assistent")
